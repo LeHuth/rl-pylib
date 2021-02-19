@@ -35,4 +35,17 @@ for i in range(1,4):
     res = gleichungssystem[i]*multiplier[0] - gleichungssystem[0]
     gleichungssystem[i] = res
 
+for i in range(2,4):
+    multiplier = gleichungssystem[0]/gleichungssystem[i]
+    res = gleichungssystem[i]*multiplier[1] - gleichungssystem[0]
+    gleichungssystem[i] = res
+
+for i in range(3,4):
+    multiplier = gleichungssystem[0]/gleichungssystem[i]
+    res = gleichungssystem[i]*multiplier[2] - gleichungssystem[0]
+    gleichungssystem[i] = res 
+    
+for j in range(3):    
+    for i in range(j+1,4):
+        gleichungssystem[i][j] = 0
 print(gleichungssystem)
