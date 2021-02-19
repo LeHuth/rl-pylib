@@ -25,27 +25,28 @@ def createGleichungssystem(points):
         bigger_arr.append(arr.copy())
         arr.clear()
     return np.array(bigger_arr)
-    
+
+def gaussMethod(gl_sys, exponent):
+    for meta in range(1,exponent+1):
+        for i in range(meta,exponent+1):
+            multiplier = gl_sys[meta-1]/gl_sys[i]
+            res = gl_sys[i]*multiplier[meta-1] - gl_sys[meta-1]
+            gl_sys[i] = res
+
+    for j in range(exponent):  
+        for i in range(j+1,exponent+1):
+            gl_sys[i][j] = 0
+            
+    return gl_sys
+
 data = getData()  
 points = splitDataIntoPoints(data)
 gleichungssystem = createGleichungssystem(points)
+new_sys = gaussMethod(gleichungssystem, 3)
 #first step, first row
+
+#print(gleichungssystem)
+print(new_sys)
 for i in range(1,4):
-    multiplier = gleichungssystem[0]/gleichungssystem[i]
-    res = gleichungssystem[i]*multiplier[0] - gleichungssystem[0]
-    gleichungssystem[i] = res
+    print(i)
 
-for i in range(2,4):
-    multiplier = gleichungssystem[0]/gleichungssystem[i]
-    res = gleichungssystem[i]*multiplier[1] - gleichungssystem[0]
-    gleichungssystem[i] = res
-
-for i in range(3,4):
-    multiplier = gleichungssystem[0]/gleichungssystem[i]
-    res = gleichungssystem[i]*multiplier[2] - gleichungssystem[0]
-    gleichungssystem[i] = res 
-    
-for j in range(3):    
-    for i in range(j+1,4):
-        gleichungssystem[i][j] = 0
-print(gleichungssystem)
