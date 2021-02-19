@@ -1,7 +1,7 @@
 import numpy as np
 
 def getData():
-    return "1,10;2,9.4;3,9;4,8.4"#input("Punkte angeben mit format: zahl.dezimal,zahl.dezimal;...")
+    return "1.49,1.98;-0.48,-1.49;0.98,0.66;2.73,0.19"#input("Punkte angeben mit format: zahl.dezimal,zahl.dezimal;...")
 
 def splitDataIntoPoints(data):
     return data.split(";")
@@ -30,9 +30,9 @@ data = getData()
 points = splitDataIntoPoints(data)
 gleichungssystem = createGleichungssystem(points)
 #first step, first row
-multiplier = gleichungssystem[0]/gleichungssystem[1]
-res = gleichungssystem[1]*multiplier[0] -gleichungssystem[0]
-print(multiplier)
-print(res)
-gleichungssystem[1] = res
+for i in range(1,4):
+    multiplier = gleichungssystem[0]/gleichungssystem[i]
+    res = gleichungssystem[i]*multiplier[0] - gleichungssystem[0]
+    gleichungssystem[i] = res
+
 print(gleichungssystem)
