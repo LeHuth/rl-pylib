@@ -27,8 +27,8 @@ def createGleichungssystem(points):
     return np.array(bigger_arr)
 
 def gaussMethod(gls, exponent):
-    #rework as such: http://elsenaju.info/Rechner/Gleichungssystem-NxN.htm
-    for meta in range(1,exponent+1):
+    #rework as such: http://elsenaju.info/Rechner/Gleichungssystem-NxN.html
+    for meta in range(1,exponent+1): #1,2,3
         for i in range(meta,exponent+1):
             multiplier = gls[meta-1]/gls[i]
             res = gls[i]*multiplier[meta-1] - gls[meta-1]
@@ -39,10 +39,18 @@ def gaussMethod(gls, exponent):
             gls[i][j] = 0
 
     return gls
-
+def newGaussMethod(gls, exponent):
+    for i in range(0,exponent+1):
+        gls[i]= gls[i]/gls[i][i]
+        if(i < exponent):
+            for j in range(i+1,exponent+1):
+                gls[j]= gls[j] - gls[i]*gls[j][i]
+    return gls
 data = getData()  
 points = splitDataIntoPoints(data)
 gleichungssystem = createGleichungssystem(points)
+
+new_sys = newGaussMethod(gleichungssystem, 3)
+
 print(gleichungssystem)
-new_sys = gaussMethod(gleichungssystem, 3)
 
