@@ -57,7 +57,7 @@ def onclick(event):
 
     plt.ioff()
 
-def startGui():
+def start():
     global cid, plt
     cid = fig.canvas.mpl_connect('button_press_event', onclick)
     plt.plot()
@@ -67,5 +67,7 @@ points = []
 fig = 0;
 ax = 0;
 x = 0;
-setup()
-startGui()
+
+#for every new graph instatiate new graph object. 
+#save that object in some datastructure with a unique id.
+#write someting that keeps this data structre sorted and withouts empty positions

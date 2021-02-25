@@ -3,12 +3,19 @@ import numpy as np
 def getData():
     return "-1.49,1.98;-0.48,-1.49;0.98,0.66;2.73,0.19"#input("Punkte angeben mit format: zahl.dezimal,zahl.dezimal;...")
 
+def setData(data):
+    return data
+
 def splitDataIntoPoints(data):
     return data.split(";")
 
+def determineGreatestExponent(points):
+    return len(points)-1
+
+
 #not optimal
 def createGleichungssystem(points):
-    exponent = int(input("exponent: "))
+    exponent = int(3)
     bigger_arr = []
     arr =  []
     for p in points:
@@ -49,8 +56,7 @@ def newGaussMethod(gls, exponent):
 data = getData()  
 points = splitDataIntoPoints(data)
 gleichungssystem = createGleichungssystem(points)
-
-new_sys = newGaussMethod(gleichungssystem, 3)
+new_sys = newGaussMethod(gleichungssystem, determineGreatestExponent(points))
 
 print(gleichungssystem)
 
