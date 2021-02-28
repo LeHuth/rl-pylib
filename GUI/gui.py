@@ -1,6 +1,7 @@
 #https://matplotlib.org/3.3.3/users/event_handling.html
 import matplotlib.pyplot as plt
 import numpy as np
+from NxN_gls_solver import gleichungsys
 
 def setup():
     global ax, fig, x
