@@ -40,7 +40,7 @@ def onclick(event):
 
     if(len(points)==4 and len(points)!=0):
         try:
-            global x, te,b,slope
+            global x, te,b,slope, lines
             slope = (points[3] - points[1]) / (points[2] - points[0])
 
             temp = slope * points[0]
@@ -49,9 +49,9 @@ def onclick(event):
             xd = np.linspace(-10,10,100)
 
             te = slope * x + b
-            plt.plot(x,te, '-r')
+            lines = plt.plot(x,te, '-r')
 
-            print(te)
+            
             #points.clear()
         except:
             pass
@@ -59,14 +59,16 @@ def onclick(event):
     plt.ioff()
 
 def onrelease(event):
-    global ax, x, slope,b
+    global ax, x, slope,b, lines
     x1,x2 = ax.get_xlim()
     print(ax.get_xlim())
     print(ax.get_ylim())
     x = np.arange(x1,x2,0.2)
     func = slope * x + b
-    print(te)
-    plt.plot(x,func, '-r')
+    l = lines.pop(0)
+    l.remove()
+    del l
+    lines = plt.plot(x,func, '-r')
 
 def start():
     global cid, plt
@@ -79,9 +81,9 @@ points = []
 fig = 0
 ax = 0
 x = 0
-te = 0
 slope = 0
 b = 0
+lines = 0
 setup()
 start()
 #for every new graph instatiate new graph object. 
