@@ -1,12 +1,13 @@
 #https://matplotlib.org/3.3.3/users/event_handling.html
 import matplotlib.pyplot as plt
 import numpy as np
+from somenamepy.graph import graph
 
-def setup():
-    global ax, fig, x
+def setup(g):
+    global ax, fig
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    x = np.arange(-10., 10., 0.2)
+    g._x = np.arange(-10., 10., 0.2)
     ax.spines['left'].set_position('center')
     ax.spines['bottom'].set_position('center')
     ax.spines['right'].set_color('none')
@@ -14,44 +15,24 @@ def setup():
     ax.set_xlim(-10, 10)
     ax.set_ylim(-10, 10)
     ax.grid(True)
-    # Show ticks in the left and lower axes only
     ax.xaxis.set_ticks_position('bottom')
     ax.yaxis.set_ticks_position('left')
-    
-
-
-
-
 
 def onclick(event):
-    print("click")
-    #print(event.xdata)
-    #print(event.ydata)
 
     plt.ion()
-
-    global ax
-    
-    if(len(points)<5):
+    global ax, g
+    if(len(g._points)<5):
         ax.plot(event.xdata, event.ydata, 'ro')
-        points.append(event.xdata)
-        points.append(event.ydata)
-
-
-    if(len(points)==4 and len(points)!=0):
+        appendPointsToArray([event.xdata, event.ydata])
+    
+    if(len(g._points)==4 and len(g._points)!=0):
         try:
-            global x, te,b,slope, lines
-            slope = (points[3] - points[1]) / (points[2] - points[0])
+            g._slope = (g._points[3] - g._points[1]) / (g._points[2] - g._points[0])
+            g._b = g._points[1] - (g._slope * g._points[0])
+            calcFunc(g)
+            g._lines = plt.plot(g._x,g._func, '-r')
 
-            temp = slope * points[0]
-
-            b = points[1] - (slope * points[0])
-            xd = np.linspace(-10,10,100)
-
-            te = slope * x + b
-            lines = plt.plot(x,te, '-r')
-
-            
             #points.clear()
         except:
             pass
@@ -59,16 +40,28 @@ def onclick(event):
     plt.ioff()
 
 def onrelease(event):
-    global ax, x, slope,b, lines
-    x1,x2 = ax.get_xlim()
-    print(ax.get_xlim())
-    print(ax.get_ylim())
-    x = np.arange(x1,x2,0.2)
-    func = slope * x + b
-    l = lines.pop(0)
+    global ax, g
+    if(g._lines != 0):
+        x1,x2 = ax.get_xlim()
+        g._x = np.arange(x1,x2,0.2)
+        calcFunc(g)
+        removeGraphOutOfView(g)
+        reDrawGraph(g)
+
+def removeGraphOutOfView(g):
+    l = g._lines.pop(0)
     l.remove()
     del l
-    lines = plt.plot(x,func, '-r')
+
+def reDrawGraph(g):
+    g._lines = plt.plot(g._x,g._func, '-r')
+
+def calcFunc(g):
+    g._func = g._slope * g._x + g._b
+
+def appendPointsToArray(data):
+    for entry in data:
+        g._points.append(entry)
 
 def start():
     global cid, plt
@@ -77,14 +70,11 @@ def start():
     plt.plot()
     plt.show()
 
-points = []
+
 fig = 0
 ax = 0
-x = 0
-slope = 0
-b = 0
-lines = 0
-setup()
+g = graph([],0,0,0,0,0,0)
+setup(g)
 start()
 #for every new graph instatiate new graph object. 
 #save that object in some datastructure with a unique id.
