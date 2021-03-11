@@ -52,11 +52,20 @@ def newGaussMethod(gls, exponent):
         if(i < exponent):
             for j in range(i+1,exponent+1):
                 gls[j]= gls[j] - gls[i]*gls[j][i]
-    return gls
+    #return gls
+
+def jordanMethod(gls, exponent):
+    for shift in range(0,exponent):
+        for i in range(0,exponent-shift):
+            gls [i] = gls[i]-(gls[i+shift+1]*gls[i][i+1+shift])
+
 data = getData()  
 points = splitDataIntoPoints(data)
 gleichungssystem = createGleichungssystem(points)
-new_sys = newGaussMethod(gleichungssystem, determineGreatestExponent(points))
+print(gleichungssystem)
+newGaussMethod(gleichungssystem, 3)
 
 print(gleichungssystem)
-
+jordanMethod(gleichungssystem, 3)
+print("--------------------------")
+print(gleichungssystem)
